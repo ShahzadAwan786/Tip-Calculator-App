@@ -6,26 +6,31 @@ const TipCalculatorContext = createContext(null);
 export default function TipCalculatorProvider({ children }) {
   const [bill, setBill] = useState("");
   const [people, setPeople] = useState("");
-  const [tipPercent, setTipPercent] = useState(null);
+  const [tipPercent, setTipPercent] = useState("");
 
-  const parseBillInput = parseFloat(bill) || 0;
-  const parsePeopleInput = parseInt(people) || 0;
+  const billValue = Number(bill);
+  const peopleValue = Number(people);
 
-  const tipAmount = (tipPercent * parseBillInput) / 100 || 0;
-  const totalAmount = parseBillInput + tipAmount;
-  const tipPerPerson =
-    parseBillInput && tipPercent && parsePeopleInput
-      ? tipAmount / parsePeopleInput
-      : 0;
-  const totalPerPerson =
-    parseBillInput && tipPercent && parsePeopleInput
-      ? totalAmount / parsePeopleInput
-      : 0;
+  const isValid =
+    billValue > 0 &&
+    peopleValue > 0 &&
+    tipPercent > 0 &&
+    Number.isFinite(billValue) &&
+    Number.isFinite(peopleValue);
 
+  let totalPerPerson = 0;
+  let tipPerPerson = 0;
+
+  if (isValid) {
+    const tipAmount = (tipPercent * billValue) / 100;
+    const totalAmount = billValue + tipAmount;
+    tipPerPerson = tipAmount / peopleValue;
+    totalPerPerson = totalAmount / peopleValue;
+  }
   const reset = () => {
     setBill("");
     setPeople("");
-    setTipPercent(null);
+    setTipPercent("");
   };
   const value = {
     bill,
