@@ -1,20 +1,23 @@
 import { Field, FieldGroup } from "@/components/ui/field";
-import BillInput from "./inputs/bill-input";
-import PeopleInput from "./inputs/people-input";
 import TipPercButtons from "./tip-perc-buttons";
+import ReusableFormInput from "@/components/common/reusable-form-input";
 
 export default function TipForm() {
   return (
     <form className="p-4 sm:p-8">
       <FieldGroup>
         <Field>
-          <BillInput />
+          <ReusableFormInput label="Bill" icon="$" placeholder="0" />
         </Field>
         <Field>
           <TipPercButtons />
         </Field>
         <Field>
-          <PeopleInput />
+          <ReusableFormInput
+            label="Number of People"
+            icon="#"
+            placeholder="0"
+          />
         </Field>
       </FieldGroup>
     </form>
