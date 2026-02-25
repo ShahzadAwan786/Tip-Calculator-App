@@ -6,17 +6,37 @@ import {
   InputGroupText,
 } from "../ui/input-group";
 
-export default function ReusableFormInput({ label, icon, placeholder }) {
+export default function ReusableFormInput({
+  id,
+  label,
+  icon,
+  placeholder,
+  value,
+  onChange,
+}) {
+  const isZero = value !== "" && Number(value) === 0;
+
   return (
     <>
-      <FieldLabel htmlFor="password" className="label-text">
-        {label}
-      </FieldLabel>
-      <InputGroup>
+      <div className="flex justify-between ">
+        <FieldLabel htmlFor={id} className="label-text">
+          {label}
+        </FieldLabel>
+        {isZero && <p className="text-red-500 text-xs mt-1">Can't be zero</p>}
+      </div>
+      <InputGroup className={`${isZero ? "!ring-red-400" : ""}`}>
         <InputGroupAddon>
-          <InputGroupText>{icon}</InputGroupText>
+          <InputGroupText className="text-2xl text-accent-foreground">
+            {icon}
+          </InputGroupText>
         </InputGroupAddon>
-        <InputGroupInput placeholder={placeholder} className=" text-right" />
+        <InputGroupInput
+          id={id}
+          placeholder={placeholder}
+          className={`input-text`}
+          value={value}
+          onChange={onChange}
+        />
       </InputGroup>
     </>
   );
