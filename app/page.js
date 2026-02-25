@@ -1,5 +1,5 @@
-import { TipCard } from "@/components/tip-card/tip-card";
+import { TipCalculatorCard } from "@/features/tip-calculator/components/tip-calculator-card";
 
 export default function Home() {
-  return <TipCard />;
+  return <TipCalculatorCard />;
 }
