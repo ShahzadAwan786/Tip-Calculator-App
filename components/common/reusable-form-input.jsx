@@ -10,32 +10,37 @@ export default function ReusableFormInput({
   id,
   label,
   icon,
-  placeholder,
-  value,
-  onChange,
+  groupClassName = "",
+  inputClassName = "",
+  showError = false,
+  error = "Must be greater than 0",
+  ...props
 }) {
-  const isZero = value !== "" && Number(value) === 0;
-
   return (
     <>
-      <div className="flex justify-between ">
-        <FieldLabel htmlFor={id} className="label-text">
-          {label}
-        </FieldLabel>
-        {isZero && <p className="text-red-500 text-xs mt-1">Can't be zero</p>}
-      </div>
-      <InputGroup className={`${isZero ? "!ring-red-400" : ""}`}>
-        <InputGroupAddon>
-          <InputGroupText className="text-2xl text-accent-foreground">
-            {icon}
-          </InputGroupText>
-        </InputGroupAddon>
+      {label && (
+        <div className="flex justify-between ">
+          <FieldLabel htmlFor={id} className="label-text">
+            {label}
+          </FieldLabel>
+          {showError && error && (
+            <p className="text-red-500 text-xs mt-1">Must be greater than 0</p>
+          )}
+        </div>
+      )}
+      <InputGroup className={groupClassName}>
+        {icon && (
+          <InputGroupAddon>
+            <InputGroupText className="text-2xl text-accent-foreground">
+              {icon}
+            </InputGroupText>
+          </InputGroupAddon>
+        )}
         <InputGroupInput
           id={id}
-          placeholder={placeholder}
-          className={`input-text`}
-          value={value}
-          onChange={onChange}
+          className={`input-text ${inputClassName}`}
+          aria-invalid={showError}
+          {...props}
         />
       </InputGroup>
     </>
