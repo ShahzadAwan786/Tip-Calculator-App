@@ -6,7 +6,6 @@ import ReusableFormInput from "../common/reusable-form-input";
 
 export default function TipSelectorButtons() {
   const { tipPercent, setTipPercent, onFocus, onKeyDown } = useTipCalculator();
-  console.log(onFocus);
   const tipPerc = [5, 10, 15, 25, 50];
   const isTipPerc = tipPerc.includes(tipPercent);
   const isZero = tipPercent !== "" && Number(tipPercent) <= 0;
@@ -30,7 +29,7 @@ export default function TipSelectorButtons() {
 
         <ReusableFormInput
           placeholder="Custom"
-          groupClassName={"h-12"}
+          groupClassName={"h-13"}
           value={isTipPerc ? "" : tipPercent}
           onChange={(e) => setTipPercent(e.target.value)}
           onFocus={onFocus}
