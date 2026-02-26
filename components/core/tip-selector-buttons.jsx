@@ -8,7 +8,7 @@ export default function TipSelectorButtons() {
   const { tipPercent, setTipPercent, onFocus, onKeyDown } = useTipCalculator();
   const tipPerc = [5, 10, 15, 25, 50];
   const isTipPerc = tipPerc.includes(tipPercent);
-  const isZero = tipPercent !== "" && Number(tipPercent) <= 0;
+  const isTipInvalid = tipPercent !== "" && Number(tipPercent) <= 0;
   return (
     <>
       <FieldLabel className="label-text">Select Tip %</FieldLabel>
@@ -30,13 +30,14 @@ export default function TipSelectorButtons() {
         <ReusableFormInput
           placeholder="Custom"
           groupClassName={"h-13"}
+          showError={isTipInvalid}
           value={isTipPerc ? "" : tipPercent}
           onChange={(e) => setTipPercent(e.target.value)}
           onFocus={onFocus}
           onKeyDown={onKeyDown}
         />
       </div>
-      {isZero && (
+      {isTipInvalid && (
         <p className="text-red-500 text-xs flex justify-end mt-0">
           Must be greater than 0
         </p>
