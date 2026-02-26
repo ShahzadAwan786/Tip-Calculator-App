@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import React from "react";
 import { useTipCalculator } from "./tip-calculator-context";
 
-export default function TIpResultPanel() {
+export default function TipResultPanel() {
   const { bill, people, reset, tipPerPerson, totalPerPerson } =
     useTipCalculator();
   const isDisabled = !bill || !people;

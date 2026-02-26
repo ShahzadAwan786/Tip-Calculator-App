@@ -2,12 +2,14 @@ import { Button } from "@/components/ui/button";
 import { FieldLabel } from "@/components/ui/field";
 import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
 import { useTipCalculator } from "./tip-calculator-context";
+import ReusableFormInput from "../common/reusable-form-input";
 
 export default function TipSelectorButtons() {
-  const { tipPercent, setTipPercent } = useTipCalculator();
+  const { tipPercent, setTipPercent, onFocus, onKeyDown } = useTipCalculator();
+  console.log(onFocus);
   const tipPerc = [5, 10, 15, 25, 50];
   const isTipPerc = tipPerc.includes(tipPercent);
-
+  const isZero = tipPercent !== "" && Number(tipPercent) <= 0;
   return (
     <>
       <FieldLabel className="label-text">Select Tip %</FieldLabel>
@@ -26,15 +28,20 @@ export default function TipSelectorButtons() {
           </Button>
         ))}
 
-        <InputGroup className="h-13">
-          <InputGroupInput
-            placeholder="Custom"
-            className="input-text"
-            value={isTipPerc ? "" : tipPercent}
-            onChange={(e) => setTipPercent(e.target.value)}
-          />
-        </InputGroup>
+        <ReusableFormInput
+          placeholder="Custom"
+          groupClassName={"h-12"}
+          value={isTipPerc ? "" : tipPercent}
+          onChange={(e) => setTipPercent(e.target.value)}
+          onFocus={onFocus}
+          onKeyDown={onKeyDown}
+        />
       </div>
+      {isZero && (
+        <p className="text-red-500 text-xs flex justify-end mt-0">
+          Must be greater than 0
+        </p>
+      )}
     </>
   );
 }

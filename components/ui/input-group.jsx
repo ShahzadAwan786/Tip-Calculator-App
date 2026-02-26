@@ -24,7 +24,7 @@ function InputGroup({ className, ...props }) {
         // Focus state.
         "has-[[data-slot=input-group-control]:focus-visible]:border-ring has-[[data-slot=input-group-control]:focus-visible]:ring-ring/50 has-[[data-slot=input-group-control]:focus-visible]:ring-[2px]",
         // Error state.
-        "has-[[data-slot][aria-invalid=true]]:ring-destructive has-[[data-slot][aria-invalid=true]]:border-destructive dark:has-[[data-slot][aria-invalid=true]]:ring-destructive/40",
+        "has-[[data-slot][aria-invalid=true]]:ring-error-ring has-[[data-slot=input-group-control][aria-invalid=true]:focus-visible]:ring-error-ring has-[[data-slot][aria-invalid=true]]:border-error-ring dark:has-[[data-slot][aria-invalid=true]]:ring-error-ring/40",
         className,
       )}
       {...props}
