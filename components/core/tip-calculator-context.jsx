@@ -32,6 +32,16 @@ export default function TipCalculatorProvider({ children }) {
     setPeople("");
     setTipPercent("");
   };
+
+  const onFocus = (e) => {
+    const length = e.target.value.length;
+    e.target.setSelectionRange(length, length);
+  };
+  const onKeyDown = (e) => {
+    if (e.key === "Enter") {
+      e.target.blur();
+    }
+  };
   const value = {
     bill,
     setBill,
@@ -42,6 +52,8 @@ export default function TipCalculatorProvider({ children }) {
     tipPerPerson,
     totalPerPerson,
     reset,
+    onFocus,
+    onKeyDown,
   };
   return (
     <TipCalculatorContext.Provider value={value}>
