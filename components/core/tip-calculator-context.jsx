@@ -1,36 +1,34 @@
 "use client";
 import { createContext, useContext, useState } from "react";
 
-const TipCalculatorContext = createContext(null);
+const TipCalculatorContext = createContext("");
 
 export default function TipCalculatorProvider({ children }) {
-  const [bill, setBill] = useState("");
-  const [people, setPeople] = useState("");
-  const [tipPercent, setTipPercent] = useState("");
-
+  const INITIAL_STATE = {
+    bill: "",
+    tipPercent: "",
+    people: "",
+  };
+  const [formData, setFormData] = useState(INITIAL_STATE);
+  const { bill, people, tipPercent } = formData;
   const billValue = Number(bill);
   const peopleValue = Number(people);
+  const tipPercentValue = Number(tipPercent);
 
   const isValid =
     billValue > 0 &&
     peopleValue > 0 &&
-    tipPercent > 0 &&
+    tipPercentValue > 0 &&
     Number.isFinite(billValue) &&
     Number.isFinite(peopleValue);
 
-  let totalPerPerson = 0;
-  let tipPerPerson = 0;
+  const tipAmount = isValid ? (tipPercentValue * billValue) / 100 : 0;
+  const totalAmount = billValue + tipAmount;
+  const tipPerPerson = isValid ? tipAmount / peopleValue : 0;
+  const totalPerPerson = isValid ? totalAmount / peopleValue : 0;
 
-  if (isValid) {
-    const tipAmount = (tipPercent * billValue) / 100;
-    const totalAmount = billValue + tipAmount;
-    tipPerPerson = tipAmount / peopleValue;
-    totalPerPerson = totalAmount / peopleValue;
-  }
-  const reset = () => {
-    setBill("");
-    setPeople("");
-    setTipPercent("");
+  const updateForm = (values) => {
+    setFormData((pre) => ({ ...pre, ...values }));
   };
 
   const onFocus = (e) => {
@@ -43,15 +41,10 @@ export default function TipCalculatorProvider({ children }) {
     }
   };
   const value = {
-    bill,
-    setBill,
-    people,
-    setPeople,
-    tipPercent,
-    setTipPercent,
+    ...formData,
     tipPerPerson,
     totalPerPerson,
-    reset,
+    updateForm,
     onFocus,
     onKeyDown,
   };
