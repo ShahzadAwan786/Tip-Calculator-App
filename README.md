@@ -16,7 +16,6 @@ A modern Tip Calculator built with **Next.js**, **React Hook Form**, and **Zod**
 - **Validation with Zod + React Hook Form**
   - Shows error for invalid inputs
   - Ignores empty fields until user types
-- **State Management via Context** for shared data
 
 ---
 

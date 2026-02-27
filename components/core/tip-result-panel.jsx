@@ -1,12 +1,46 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import React from "react";
-import { useTipCalculator } from "./tip-calculator-context";
+import { useWatch } from "react-hook-form";
 import ResultsRow from "../common/results-row";
 
+const tipCalculator = (bill, people, tipPercent) => {
+  const billValue = Number(bill);
+  const peopleValue = Number(people);
+  const tipPercentValue = Number(tipPercent);
+
+  const isValid =
+    billValue > 0 &&
+    peopleValue > 0 &&
+    tipPercentValue > 0 &&
+    Number.isFinite(billValue) &&
+    Number.isFinite(peopleValue);
+
+  const tipAmount = isValid ? (tipPercentValue * billValue) / 100 : 0;
+  const totalAmount = billValue + tipAmount;
+  const tipPerPerson = isValid ? tipAmount / peopleValue : 0;
+  const totalPerPerson = isValid ? totalAmount / peopleValue : 0;
+
+  return {
+    tipPerPerson,
+    totalPerPerson,
+  };
+};
+
 export default function TipResultPanel({ methods }) {
-  const { bill, people, tipPerPerson, totalPerPerson } = useTipCalculator();
-  const { reset } = methods;
+  const { control, reset } = methods;
+
+  const [bill, people, tipPercent] = useWatch({
+    control,
+    name: ["bill", "people", "tipPercent"],
+  });
+
+  const { tipPerPerson, totalPerPerson } = tipCalculator(
+    bill,
+    people,
+    tipPercent,
+  );
+
   const isDisabled = !bill || !people;
 
   return (
