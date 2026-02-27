@@ -1,4 +1,4 @@
-export default function ReusableResultsRow({ label, value }) {
+export default function ResultsRow({ label, value }) {
   return (
     <div className="flex justify-between items-center ">
       <div className="space-y-1">

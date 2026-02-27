@@ -1,4 +1,4 @@
-import { FieldLabel } from "../ui/field";
+import { Field, FieldGroup, FieldLabel } from "../ui/field";
 import {
   InputGroup,
   InputGroupAddon,
@@ -6,27 +6,27 @@ import {
   InputGroupText,
 } from "../ui/input-group";
 
-export default function ReusableFormInput({
-  id,
+export default function FormInput({
+  labelId,
   label,
   icon,
   groupClassName = "",
   inputClassName = "",
   showError = false,
-  error = "Must be greater than 0",
+  error = "",
   ...props
 }) {
   return (
     <>
       {label && (
-        <div className="flex justify-between ">
-          <FieldLabel htmlFor={id} className="label-text">
+        <Field className="flex flex-row justify-between items-end">
+          <FieldLabel htmlFor={labelId} className="label-text">
             {label}
           </FieldLabel>
           {showError && error && (
-            <p className="text-red-500 text-xs mt-1">Must be greater than 0</p>
+            <p className="text-red-500 text-xs mt-1 w-full ">{error}</p>
           )}
-        </div>
+        </Field>
       )}
       <InputGroup className={groupClassName}>
         {icon && (
@@ -37,7 +37,7 @@ export default function ReusableFormInput({
           </InputGroupAddon>
         )}
         <InputGroupInput
-          id={id}
+          id={labelId}
           className={`input-text ${inputClassName}`}
           aria-invalid={showError}
           {...props}
