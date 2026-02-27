@@ -24,7 +24,7 @@ export default function FormInput({
             {label}
           </FieldLabel>
           {showError && error && (
-            <p className="text-red-500 text-xs mt-1 w-full ">{error}</p>
+            <p className="text-red-500 text-xs mt-1">{error}</p>
           )}
         </Field>
       )}
