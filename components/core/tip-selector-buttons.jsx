@@ -1,13 +1,25 @@
 import { Button } from "@/components/ui/button";
 import { FieldLabel } from "@/components/ui/field";
-import { InputGroup, InputGroupInput } from "@/components/ui/input-group";
-import { useTipCalculator } from "./tip-calculator-context";
 import FormInput from "../common/form-input";
-import { Controller } from "react-hook-form";
+import { Controller, useWatch } from "react-hook-form";
 
-export default function TipSelectorButtons({ control, errors, setValue }) {
-  const { tipPercent, onKeyDown } = useTipCalculator();
+export default function TipSelectorButtons({
+  control,
+  errors,
+  setValue,
+  clearErrors,
+  onKeyDown,
+}) {
+  const [tipPercent, customTip] = useWatch({
+    control,
+    name: ["tipPercent", "customTip"],
+  });
   const tipPerc = [5, 10, 15, 25, 50];
+  const handleBtnClick = () => {
+    setValue("tipPercent", tip);
+    setValue("customTip", "");
+    clearErrors("customTip");
+  };
   return (
     <>
       <FieldLabel className="label-text">Select Tip %</FieldLabel>
@@ -16,11 +28,9 @@ export default function TipSelectorButtons({ control, errors, setValue }) {
           <Button
             key={tip}
             type="button"
-            onClick={() => {
-              (setValue("tipPercent", tip), setValue("customTip", ""));
-            }}
+            onClick={handleBtnClick}
             className={`h-13 text-lg font-semibold  sm:text-2xl hover:bg-foreground hover:text-primary 
-              ${tipPercent === tip ? "bg-foreground text-primary" : ""}`}
+              ${customTip === "" && tipPercent === tip ? "bg-foreground text-primary" : ""}`}
           >
             {tip}%
           </Button>
@@ -39,7 +49,7 @@ export default function TipSelectorButtons({ control, errors, setValue }) {
           )}
         />
       </div>
-      {errors?.customTip && tipPercent !== "" && (
+      {customTip !== "" && errors?.customTip && (
         <p className="text-red-500 text-xs flex justify-end mt-0">
           {errors?.customTip?.message}
         </p>
