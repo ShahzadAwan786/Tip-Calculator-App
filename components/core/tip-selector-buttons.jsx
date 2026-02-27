@@ -15,7 +15,7 @@ export default function TipSelectorButtons({
     name: ["tipPercent", "customTip"],
   });
   const tipPerc = [5, 10, 15, 25, 50];
-  const handleBtnClick = () => {
+  const handleBtnClick = (tip) => {
     setValue("tipPercent", tip);
     setValue("customTip", "");
     clearErrors("customTip");
@@ -28,7 +28,7 @@ export default function TipSelectorButtons({
           <Button
             key={tip}
             type="button"
-            onClick={handleBtnClick}
+            onClick={() => handleBtnClick(tip)}
             className={`h-13 text-lg font-semibold  sm:text-2xl hover:bg-foreground hover:text-primary 
               ${customTip === "" && tipPercent === tip ? "bg-foreground text-primary" : ""}`}
           >
@@ -44,6 +44,10 @@ export default function TipSelectorButtons({
               placeholder="Custom"
               groupClassName={"h-13"}
               showError={!!errors?.customTip && field.value !== ""}
+              onChange={(e) => {
+                field.onChange(e.target.value);
+                setValue("tipPercent", "");
+              }}
               onKeyDown={onKeyDown}
             />
           )}

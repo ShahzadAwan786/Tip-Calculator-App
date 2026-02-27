@@ -4,10 +4,13 @@ import React from "react";
 import { useWatch } from "react-hook-form";
 import ResultsRow from "../common/results-row";
 
-const tipCalculator = (bill, people, tipPercent) => {
+const tipCalculator = (bill, people, tipPercent, customTip) => {
   const billValue = Number(bill);
   const peopleValue = Number(people);
-  const tipPercentValue = Number(tipPercent);
+  const tipPercentValue =
+    customTip !== "" && customTip != null
+      ? Number(customTip)
+      : Number(tipPercent);
 
   const isValid =
     billValue > 0 &&
@@ -30,15 +33,16 @@ const tipCalculator = (bill, people, tipPercent) => {
 export default function TipResultPanel({ methods }) {
   const { control, reset } = methods;
 
-  const [bill, people, tipPercent] = useWatch({
+  const [bill, people, tipPercent, customTip] = useWatch({
     control,
-    name: ["bill", "people", "tipPercent"],
+    name: ["bill", "people", "tipPercent", "customTip"],
   });
 
   const { tipPerPerson, totalPerPerson } = tipCalculator(
     bill,
     people,
     tipPercent,
+    customTip,
   );
 
   const isDisabled = !bill || !people;
